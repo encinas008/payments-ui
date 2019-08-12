@@ -1,0 +1,58 @@
+<mat-form-field style="width: 50%">
+  <mat-select placeholder="Columns" [(value)]="selectedSortBy">
+    <mat-option *ngFor="let paymentColumn of paymentColumns" [(value)]="paymentColumn.value">
+      {{ paymentColumn.viewValue }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-radio-group class="example-radio-group" [(ngModel)]="selectedOrder" style="width: 50%">
+  <mat-radio-button 
+    *ngFor="let order of orders; let i = index" [value]="order" [checked]="i === 0"
+    style="width: 100%;"
+    class="example-radio-button">
+    {{ order }}
+  </mat-radio-button>
+</mat-radio-group>
+
+
+<div class="row" style="width: 100%; margin-top: 15px;">
+  <button mat-raised-button class="mat-accent mr-16" (click)="addSortBy()">Add</button>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="margin-top: 15px;">
+    <!-- Date Payment Column -->
+    <ng-container matColumnDef="SortBy">
+      <th mat-header-cell *matHeaderCellDef> 
+        Column
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.columnName }} </td>
+    </ng-container>
+
+    <!-- Date Payment Column -->
+    <ng-container matColumnDef="Order">
+      <th mat-header-cell *matHeaderCellDef> 
+        Order
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.order }} </td>
+    </ng-container>
+
+     <!-- Date Payment Column -->
+    <ng-container matColumnDef="Action">
+      <th mat-header-cell *matHeaderCellDef> 
+        Delete
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index;"> 
+        <button mat-icon-button (click)="delete(i)">
+          <mat-icon class="s-24" style="color: #f44336">close</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+  </table>
+  
+  <div class="col-md-12" style="width: 100%; margin-top: 15px;">
+      <button mat-raised-button class="mat-accent mr-16" (click)="sort()" [disabled]="dataSource.data.length === 0">Sort</button>
+  </div>

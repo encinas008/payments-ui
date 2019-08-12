@@ -1,0 +1,200 @@
+
+
+<div id="products" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg mat-accent-bg"></div>
+    <!-- / TOP BACKGROUND -->
+  
+    <!-- CENTER -->
+    <div class="center">
+  
+        <!-- HEADER -->
+        <div class="header mat-accent-bg"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+  
+            <!-- APP TITLE -->
+            <div class="logo my-12 m-sm-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="logo-icon mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    shopping_basket
+                </mat-icon>
+                <!-- [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" -->
+                <span class="logo-text h1" >
+                    Payments
+                </span>
+                
+            </div>
+            <!-- / APP TITLE -->
+            <div class="row">
+              <button mat-button [matMenuTriggerFor]="paymentsMenu" class="mat-white-bg">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <span class="username mr-12" fxHide fxShow.gt-sm>New Payment</span>
+                    <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
+                </div>
+              </button>
+              <mat-menu #paymentsMenu="matMenu" [overlapTrigger]="false">
+
+                  <button mat-menu-item (click)="openDialogToCreatePayment('CASH')">
+                      <mat-icon>attach_money</mat-icon>
+                      <span>Cash</span>
+                  </button>
+
+                  <button mat-menu-item class="" (click)="openDialogToCreatePayment('CHECK')">
+                      <mat-icon>card_membership</mat-icon>
+                      <span>Check</span>
+                  </button>
+
+                  <button mat-menu-item class="" (click)="openDialogToCreatePayment('CARD')">
+                      <mat-icon>credit_card</mat-icon>
+                      <span>Card</span>
+                  </button>
+
+                  <button mat-menu-item class="" (click)="openDialogToCreatePayment('TRANSFER')">
+                      <mat-icon>compare_arrows</mat-icon>
+                      <span>Transfer</span>
+                  </button>
+
+              </mat-menu>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="row">
+            <button mat-raised-button (click)="openMultipleSort()" class="add-product-button mat-white-bg my-12 mt-sm-0" [disabled]="dataSource.data?.length <= 1">
+              <span>Customize Sort</span>
+            </button>
+          </div>
+        </div>
+        <!-- / HEADER -->
+  
+        <!-- CONTENT CARD -->
+        <div class="content-card mat-white-bg" fusePerfectScrollbar>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fusePerfectScrollbar>
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+              
+                <!-- Type Payment Column -->
+                <ng-container matColumnDef="typePayment">
+                  <th mat-header-cell *matHeaderCellDef
+                      [class.active]="columnName === 'typePayment'"
+                      (click)="setOrder('typePayment')"> 
+                    Date Service 
+                    <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element?.typePayment}} </td>
+                </ng-container>
+              
+                <!-- Date Service Column -->
+                <ng-container matColumnDef="dateService">
+                  <th mat-header-cell *matHeaderCellDef
+                      [class.active]="columnName === 'dateService'"
+                      (click)="setOrder('dateService')"> 
+                    Date Service 
+                    <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.dateService}} </td>
+                </ng-container>
+              
+                <!-- Date Payment Column -->
+                <ng-container matColumnDef="datePayment">
+                  <th mat-header-cell *matHeaderCellDef
+                      [class.active]="columnName === 'datePayment'"
+                      (click)="setOrder('datePayment')"> 
+                    Date Payment
+                    <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.datePayment}} </td>
+                </ng-container>
+              
+                <!-- Check Number Payment Column -->
+                <ng-container matColumnDef="checkNumber">
+                  <th mat-header-cell *matHeaderCellDef
+                      [class.active]="columnName === 'checkNumber'"
+                      (click)="setOrder('checkNumber')"> 
+                    Check Number
+                    <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.checkNumber}} </td>
+                </ng-container>
+              
+                <!-- Last Digits Payment Column -->
+                <ng-container matColumnDef="lastDigits">
+                  <th mat-header-cell *matHeaderCellDef
+                      [class.active]="columnName === 'lastDigits'"
+                      (click)="setOrder('lastDigits')"> 
+                    Last Digits
+                    <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.lastDigits}} </td>
+                </ng-container>
+              
+                <!-- Authorization Payment Column -->
+                <ng-container matColumnDef="authorization">
+                  <th mat-header-cell *matHeaderCellDef
+                      [class.active]="columnName === 'authorization'"
+                      (click)="setOrder('authorization')"> 
+                    Authorization
+                    <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.authorization}} </td>
+                </ng-container>
+              
+                <!-- Number Account Payment Column -->
+                <ng-container matColumnDef="numberAccount">
+                  <th mat-header-cell *matHeaderCellDef
+                      [class.active]="columnName === 'numberAccount'"
+                      (click)="setOrder('numberAccount')"> 
+                    Number Account
+                    <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.numberAccount}} </td>
+                </ng-container>
+              
+                <!-- Name Bank Payment Column -->
+                <ng-container matColumnDef="nameBank">
+                  <th mat-header-cell *matHeaderCellDef
+                      [class.active]="columnName === 'nameBank'"
+                      (click)="setOrder('nameBank')"> 
+                    Number Account
+                    <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nameBank}} </td>
+                </ng-container>
+              
+                <!-- Concept Column -->
+                <ng-container matColumnDef="concept">
+                  <th mat-header-cell *matHeaderCellDef
+                    [class.active]="columnName === 'concept'"
+                      (click)="setOrder('concept')"> 
+                    Concept 
+                    <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.concept}} </td>
+                </ng-container>
+              
+                 <!-- Amount Column -->
+                <ng-container matColumnDef="amount">
+                  <th mat-header-cell *matHeaderCellDef
+                      [class.active]="columnName === 'amount'"
+                      (click)="setOrder('amount')"> 
+                    Amount 
+                    <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> $ {{element.amount}} </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+  
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+  </div>
+  
+  
+  

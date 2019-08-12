@@ -1,0 +1,100 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+      <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="title dialog-title">Transfer Payment</span>
+        <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  
+    <form [formGroup]="form">
+      <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <mat-form-field style="width: 45%">
+            <input matInput 
+                   [matDatepicker]="picker" 
+                   placeholder="Date Service" 
+                   (dateChange)="addDateService($event)" 
+                   [min]="minDate" 
+                   formControlName="dateService" >
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="form.get('dateService').hasError('required')">Date Service is required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field style="width: 45%">
+            <input matInput [matDatepicker]="picker2" placeholder="Date Payment" (dateChange)="addDatePayment($event)" [min]="minDate"
+            formControlName="datePayment">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="form.get('datePayment').hasError('required')">Date Payment is required</mat-error>
+          </mat-form-field>
+        </div>
+  
+        <div class="row" fxLayoutAlign="space-between center">
+          <mat-form-field style="width: 45%">
+            <input  formControlName="amount" 
+                    placeholder="Amount" 
+                    currencyMask
+                    min="1.00" max="999999999.00"
+                    [(ngModel)]="payment.amount" 
+                    matInput>
+            <mat-error *ngIf="form.get('amount').hasError('minlength')">At least 1 digit.</mat-error>
+            <mat-error *ngIf="form.get('amount').hasError('maxlength')">Max. 9 digits.</mat-error>
+            <mat-error *ngIf="form.get('amount').hasError('required')">Amount is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field style="width: 45%">
+            <input  formControlName="nameBank" 
+                      placeholder="Name Bank" 
+                      [(ngModel)]="payment.nameBank" 
+                      matInput
+                      (keydown)="inputValidator.onlyLetters($event)">
+            <mat-error *ngIf="form.get('nameBank').hasError('minlength')">At least 3 digit.</mat-error>
+            <mat-error *ngIf="form.get('nameBank').hasError('maxlength')">Max. 15 digits.</mat-error>
+            <mat-error *ngIf="form.get('nameBank').hasError('required')">Name of Bank is required.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row" fxLayoutAlign="space-between center">
+          <mat-form-field style="width: 45%">
+            <input  formControlName="numberAccount" 
+                      placeholder="Number Account" 
+                      [(ngModel)]="payment.numberAccount" 
+                      matInput
+                      (keydown)="inputValidator.onlyNumbers($event)">
+            <mat-error *ngIf="form.get('numberAccount').hasError('minlength')">At least 5 digit.</mat-error>
+            <mat-error *ngIf="form.get('numberAccount').hasError('maxlength')">Max. 15 digits.</mat-error>
+            <mat-error *ngIf="form.get('numberAccount').hasError('required')">Number Account is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field style="width: 45%">
+            <input  formControlName="authorization" 
+                      placeholder="Authorization" 
+                      [(ngModel)]="payment.authorization" 
+                      matInput >
+            <mat-error *ngIf="form.get('authorization').hasError('minlength')">At least 5 digit.</mat-error>
+            <mat-error *ngIf="form.get('authorization').hasError('maxlength')">Max. 15 digits.</mat-error>
+            <mat-error *ngIf="form.get('authorization').hasError('required')">Authorization is required.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field style="width: 100%;">
+            <textarea formControlName="concept" matInput placeholder="Concept" rows="5" fxFlex='0 0 100%' [(ngModel)]="payment.concept" required></textarea>
+            <mat-error *ngIf="form.get('concept').hasError('required')">Concept is required</mat-error>
+            <mat-error *ngIf="form.get('concept').hasError('minlength')">At least 5 characters. </mat-error>
+            <mat-error *ngIf="form.get('concept').hasError('maxlength')">Max. 150 characters.</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+  
+      <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-raised-button type="button" color="accent" (click)="savePayment()" [disabled]="form.invalid">
+          Save
+        </button>
+      </div>
+    </form>
+  
+  </div>

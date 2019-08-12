@@ -1,0 +1,79 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+      <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="title dialog-title">Cash Payment</span>
+        <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  
+    <form [formGroup]="form">
+      <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <mat-form-field>
+            <input matInput 
+                   [matDatepicker]="picker" 
+                   placeholder="Date Service" 
+                   (dateChange)="addDateService($event)" 
+                   [min]="minDate" 
+                   formControlName="dateService"
+                   required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="form.get('dateService').hasError('required')">Date Service is required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input  matInput 
+                    [matDatepicker]="picker2" 
+                    placeholder="Date Payment" 
+                    (dateChange)="addDatePayment($event)" 
+                    [min]="minDate"
+                    formControlName="datePayment"
+                    required>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="form.get('datePayment').hasError('required')">Date Payment is required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input  formControlName="amount" 
+                    currencyMask
+                    min="1.00" max="999999999.00"
+                    placeholder="Amount" 
+                    [(ngModel)]="payment.amount" 
+                    matInput
+                    autocomplete="off"
+                    required>
+            <mat-error *ngIf="form.get('amount').hasError('minlength')">At least 1 digit.</mat-error>
+            <mat-error *ngIf="form.get('amount').hasError('maxlength')">Max. 9 digits.</mat-error>
+            <mat-error *ngIf="form.get('amount').hasError('required')">Amount is required.</mat-error>
+          </mat-form-field>
+        </div>
+  
+        <div class="row">
+          <mat-form-field style="width: 100%;">
+            <textarea formControlName="concept" 
+                      matInput 
+                      placeholder="Concept" 
+                      rows="5" 
+                      fxFlex='0 0 100%' 
+                      [(ngModel)]="payment.concept"
+                      required>
+            </textarea>
+            <mat-error *ngIf="form.get('concept').hasError('required')">Concept is required</mat-error>
+            <mat-error *ngIf="form.get('concept').hasError('minlength')">At least 5 characters. </mat-error>
+            <mat-error *ngIf="form.get('concept').hasError('maxlength')">Max. 150 characters.</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+  
+      <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-raised-button type="button" color="accent" (click)="savePayment()" [disabled]="form.invalid">
+          Save
+        </button>
+      </div>
+    </form>
+  
+  </div>
